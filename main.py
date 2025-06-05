@@ -400,7 +400,7 @@ async def run_game(WIN, SCREEN_WIDTH, SCREEN_HEIGHT, clock, FPS):
             if event.type == pygame.QUIT:
                 return GameState.QUIT
             elif event.type == INC_SPEED:
-                SPEED += 0.5
+                SPEED += 0.2
 
         P1.update()
 
