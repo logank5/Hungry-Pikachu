@@ -449,6 +449,21 @@ async def run_game(WIN, SCREEN_WIDTH, SCREEN_HEIGHT, clock, FPS):
         pygame.display.update()
         clock.tick(FPS)
 
+async def exit_screen(screen):
+    screen.fill(BLACK)
+    font = pygame.font.Font("assets/fonts/CourierPrime-Bold.ttf",50)
+    text = font.render("Thanks for playing!", True, WHITE)
+    text2 = font.render("Close the tab to exit", True, WHITE)
+    screen_width, screen_height = screen.get_size()
+    font_rect = text.get_rect(center=(screen.get_width()/2, screen_height/2 - 50))
+    font2_rect = text2.get_rect(center=(screen.get_width()/2, screen_height/2 + 50))
+    screen.blit(text, font_rect)
+    screen.blit(text2, font2_rect)
+    pygame.display.flip()
+
+    while True:
+        await asyncio.sleep(1)
+
 async def main():
     pygame.init()
     pygame.mixer.init()
@@ -471,8 +486,7 @@ async def main():
         elif game_state == GameState.NEWGAME:
             game_state = await run_game(WIN, SCREEN_WIDTH, SCREEN_HEIGHT, clock, FPS)
         elif game_state == GameState.QUIT:
-            pygame.quit()
-            sys.exit()
+            game_state = await exit_screen(WIN)
         elif game_state == GameState.HOWTO:
             game_state = await how_to_screen(WIN)
         
